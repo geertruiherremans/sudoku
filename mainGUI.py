@@ -5,7 +5,7 @@ import time
 from pygame.locals import *
 
 # Functionalities
-plot = False
+plot = True
 
 # initialise the pygame font
 pygame.font.init()
@@ -121,6 +121,11 @@ to_solve = True
 while run:
     while to_solve:
         screen.fill(WHITE)
+        highlight_box(x, y)
+        draw(board)
+        if wrong == 1:
+            screen.blit(img1, (x * dif + 15, y * dif + 10))
+        pygame.display.update()
         # pygame.display.update()
         for event in pygame.event.get():
             if event.type == KEYDOWN:
@@ -154,11 +159,6 @@ while run:
                     to_solve = False
             if event.type == pygame.QUIT:
                 run = False
-        highlight_box(x, y)
-        draw(original)
-        if wrong == 1:
-            screen.blit(img1, (x * dif + 15, y * dif + 10))
-        pygame.display.update()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
