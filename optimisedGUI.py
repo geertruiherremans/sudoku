@@ -5,7 +5,7 @@ import time
 from pygame.locals import *
 
 # Functionalities
-plot = False
+plot = True
 
 # initialise the pygame font
 pygame.font.init()
@@ -86,6 +86,33 @@ def valid(bo, row, col, i):
     return True
 
 
+def optimised_solve(bo):
+    quick_solve(bo)
+    solve(bo)
+
+
+def quick_solve(bo):
+    updated = True
+    while updated:
+        updated = False
+        all_empty = np.argwhere(np.array(bo) == 0)
+        for index in all_empty:
+            if unique_solution(bo,index[0],index[1]):
+                bo[index[0]][index[1]] = unique_solution(bo,index[0],index[1])
+                updated = True
+
+
+def unique_solution(bo,i,j):
+    solution = 0
+    for value in range(1,10):
+        if valid(bo,i,j,value):
+            if solution:
+                return False
+            else:
+                solution = value
+    return solution
+
+
 def solve(bo):
     if plot:
         screen.fill(WHITE)
@@ -150,7 +177,7 @@ while run:
                     draw(original)
                     pygame.display.update()
                     tic = time.perf_counter()
-                    solve(solve_board)
+                    optimised_solve(solve_board)
                     toc = time.perf_counter()
                     pygame.display.set_caption(f"Solved puzzle in {toc - tic:0.4f} seconds")
                     screen.fill(WHITE)
