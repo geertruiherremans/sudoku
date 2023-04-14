@@ -35,6 +35,16 @@ board = [[5, 3, 0, 0, 7, 0, 0, 0, 0],
          [0, 0, 0, 4, 1, 9, 0, 0, 5],
          [0, 0, 0, 0, 8, 0, 0, 7, 9]]
 
+board = [[3, 0, 0, 8, 0, 1, 0, 0, 2],
+        [2, 0, 1, 0, 3, 0, 6, 0, 4],
+        [0, 0, 0, 2, 0, 4, 0, 0, 0],
+        [8, 0, 9, 0, 0, 0, 1, 0, 6],
+        [0, 6, 0, 0, 0, 0, 0, 5, 0],
+        [7, 0, 2, 0, 0, 0, 4, 0, 9],
+        [0, 0, 0, 5, 0, 9, 0, 0, 0],
+        [9, 0, 4, 0, 8, 0, 7, 0, 5],
+        [6, 0, 0, 1, 0, 7, 0, 0, 3]]
+
 
 def draw(bo):
     for i in range(11):
@@ -49,13 +59,13 @@ def draw(bo):
             pygame.draw.line(screen, BLACK, (0, dif * j), (500, dif * j))
     for i in range(9):
         for j in range(9):
-            if original[i][j] != 0:
-                font2 = pygame.font.SysFont(str(bo[i][j]), 60)
-                img2 = font2.render(str(bo[i][j]), True, BLACK)
+            if original[j][i] != 0:
+                font2 = pygame.font.SysFont(str(bo[j][i]), 60)
+                img2 = font2.render(str(bo[j][i]), True, BLACK)
                 screen.blit(img2, (i * dif + 15, j * dif + 10))
-            elif bo[i][j] != 0:
-                font2 = pygame.font.SysFont(str(bo[i][j]), 60)
-                img2 = font2.render(str(bo[i][j]), True, BLUE2)
+            elif bo[j][i] != 0:
+                font2 = pygame.font.SysFont(str(bo[j][i]), 60)
+                img2 = font2.render(str(bo[j][i]), True, BLUE2)
                 screen.blit(img2, (i * dif + 15, j * dif + 10))
 
 
@@ -161,12 +171,12 @@ while run:
                     y = max(min(y + key_dict[event.key][1], 8), 0)
                     wrong = 0
                 if event.key == K_BACKSPACE:
-                    if original[x][y] == 0:
-                        board[x][y] = 0
+                    if original[y][x] == 0:
+                        board[y][x] = 0
                 if event.key in num_dict:
-                    if original[x][y] == 0:
-                        if valid(board, x, y, num_dict[event.key]):
-                            board[x][y] = num_dict[event.key]
+                    if original[y][x] == 0:
+                        if valid(board, y, x, num_dict[event.key]):
+                            board[y][x] = num_dict[event.key]
                             wrong = 0
                         else:
                             font1 = pygame.font.SysFont('x', 60)
